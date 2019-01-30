@@ -281,13 +281,21 @@ bool isKite(Point p1, Point p2, Point p3, Point p4) {
     return numCongruentSides == 2;
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, const char * argv[]) {
     string in;
     //    in = "45 10 55 55 13 42";
     while (!cin.eof()) {
         getline(cin, in);
         vector<string> splittedLine = splitLine(in);
-        assert(splittedLine.size() == 6);
+        assert(splittedLine.size() == 6); // check for 4 points
+        
         Point p1 = {0, 0};
         Point p2 = {stod(splittedLine[0]), stod(splittedLine[1])};
         Point p3 = {stod(splittedLine[2]), stod(splittedLine[3])};
