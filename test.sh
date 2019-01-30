@@ -7,10 +7,10 @@
 ./quad < ./test_cases/testSquare.txt > resultSquare.txt
 ./quad < ./test_cases/testTrapezoid.txt > resultTrapezoid.txt
 
-diff resultKite.txt expectedKite.txt
-diff resultParallelogram.txt expectedParallelogram.txt
-diff resultQuadrilateral.txt expectedQuadrilateral.txt
-diff resultRectangle.txt expectedRectangle.txt
-diff resultRhombi.txt expectedRhombi.txt
-diff resultSquare.txt expectedSquare.txt
-diff resultTrapezoid.txt expectedTrapezoid.txt
+diff resultKite.txt ./expected/expectedKite.txt
+diff resultParallelogram.txt ./expected/expectedParallelogram.txt
+diff resultQuadrilateral.txt ./expected/expectedQuadrilateral.txt
+diff resultRectangle.txt ./expected/expectedRectangle.txt
+diff resultRhombi.txt ./expected/expectedRhombi.txt
+diff resultSquare.txt ./expected/expectedSquare.txt
+diff resultTrapezoid.txt ./expected/expectedTrapezoid.txt
