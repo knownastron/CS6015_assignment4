@@ -23,14 +23,18 @@ vector<string> splitLine(string inputStr) {
     string temp = "";
     for (int i = 0; i < inputStr.size(); i++) {
         if (inputStr[i] == ' ') {
-            output.push_back(temp);
-            temp = "";
+            if (temp != "") {
+                output.push_back(temp);
+                temp = "";
+            }
         } else {
             temp += inputStr[i];
         }
         
         if (i == inputStr.size() - 1) {
-            output.push_back(temp);
+            if (temp != "") {
+                output.push_back(temp);
+            }
         }
     }
     return output;
@@ -289,6 +293,7 @@ bool isKite(Point p1, Point p2, Point p3, Point p4) {
 // checks for wrong # of points, points < 0 or > 100
 bool isError1(vector<string> line) {
     if (line.size() != 6) {
+        cout << "error 1";
         return true;
     }
     
@@ -297,11 +302,11 @@ bool isError1(vector<string> line) {
         try {
             num = stoi(ch);
         } catch (const std::invalid_argument& ia) {
-            cout << "error 1-1";
+            cout << "error 1";
             return true;
         }
         if (std::stoi(ch) > 100 || std::stoi(ch) < 0) {
-            cout << "error 1-2";
+            cout << "error 1";
             return true;
         }
     }
@@ -330,22 +335,15 @@ bool isError2(vector<string> line) {
     return false;
 }
 
-bool isError5(Point p1, Point p2, Point p3, Point p4) {
-    cout << p1.angle << " " << p2.angle << " " << p3.angle << " " << p4.angle << endl;
-    int totalAngle = p1.angle + p2.angle + p3.angle + p4.angle;
-    cout << totalAngle << endl;
-    return !(totalAngle == 360);
-}
-
 bool isError3(Point p1, Point p2, Point p3, Point p4) {
     double slope12 = getSlope(p1, p2);
     double slope23 = getSlope(p2, p3);
     double slope34 = getSlope(p3, p4);
     double slope41 = getSlope(p4, p1);
-//    cout << "slope12 " << slope12 << endl;
-//    cout << "slope23 " << slope23 << endl;
-//    cout << "slope34 " << slope34 << endl;
-//    cout << "slope41 " << slope41 << endl;
+    //    cout << "slope12 " << slope12 << endl;
+    //    cout << "slope23 " << slope23 << endl;
+    //    cout << "slope34 " << slope34 << endl;
+    //    cout << "slope41 " << slope41 << endl;
     
     // if opposing sides are parallel, there is no intersection
     if (isParallel(slope12, slope34) && isParallel(slope23, slope41)) {
@@ -361,13 +359,13 @@ bool isError3(Point p1, Point p2, Point p3, Point p4) {
     // x and y intercept for lines 12 and 34
     double x1234 = (b12 - b34)/ (slope34 - slope12);
     double y1234 = (slope12 * x1234) + b12;
-    cout << "x1234 " << x1234 << " y1234 " << y1234 << endl;
+    //    cout << "x1234 " << x1234 << " y1234 " << y1234 << endl;
     
     // x and y intercept for lines 23 and 41
     double x2341 = (b23 - (b41))/ (slope41 - (slope23));
     double y2341 = (slope23 * x2341) + b23;
     
-//    cout << "x2341 " << x2341 << " y2341 " << x2341 << endl;
+    //    cout << "x2341 " << x2341 << " y2341 " << x2341 << endl;
     
     //12
     bool bool1 = x1234 >= min(p1.x, p2.x);
@@ -380,7 +378,7 @@ bool isError3(Point p1, Point p2, Point p3, Point p4) {
     bool bool6 = x1234 <= max(p3.x, p4.x);
     bool bool7 = y1234 >= min(p3.x, p4.x);
     bool bool8 = y1234 <= max(p3.y, p4.y);
-
+    
     //41
     bool bool9 = x2341 >= min(p4.x, p1.x);
     bool bool10 = x2341 <= max(p4.x, p1.x);
@@ -392,9 +390,9 @@ bool isError3(Point p1, Point p2, Point p3, Point p4) {
     bool bool14 = x2341 <= max(p2.x, p3.x);
     bool bool15 = y2341 >= min(p2.x, p3.x);
     bool bool16 = y2341 <= max(p2.y, p3.y);
-  
-//    cout << bool1 << " " << bool2 << " " << bool3 << " " << bool4 << " " << bool5 << " " << bool6 << " " << bool7 << " " << bool8 << endl;
-//    cout << bool9 << " " << bool10 << " " << bool11 << " " << bool12 << " " << bool13 << " " << bool14 << " " << bool15 << " " << bool16 << endl;
+    
+    //    cout << bool1 << " " << bool2 << " " << bool3 << " " << bool4 << " " << bool5 << " " << bool6 << " " << bool7 << " " << bool8 << endl;
+    //    cout << bool9 << " " << bool10 << " " << bool11 << " " << bool12 << " " << bool13 << " " << bool14 << " " << bool15 << " " << bool16 << endl;
     
     if (fabs(x1234) != INFINITY && fabs(y1234) != INFINITY && x1234 != NAN && y1234 != NAN) {
         if (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7 && bool8) {
@@ -453,36 +451,36 @@ bool isError4(Point p1, Point p2, Point p3, Point p4) {
 
 int main(int argc, const char * argv[]) {
     string in;
-//    in = "0 4 2 4 2 2"; //fine
-//    in = "3 0 0 3 3 3"; // error
-//    in = "0 3 3 0 3 3"; // error 3
-//    in = "4 0 0 4 1 1"; // fine
-//    in = "4 3 2 3 1 2"; // fine
-//    in = "2 1 -2 1 3 -2"; // error 1
-//    in = "5 3 4 0 0 3"; // error 3
-//    in = "1 2 1 4 1 9"; // error 4
-    in = "25 25 9 2 25 25"; // error 2
-//    while (!cin.eof()) {
-//        getline(cin, in);
+//        in = "0 4 2 4 2 2    "; //fine
+    //    in = "3 0 0 3 3 3"; // error
+    //    in = "0 3 3 0 3 3"; // error 3
+    //    in = "4 0 0 4 1 1"; // fine
+    //    in = "4 3 2 3 1 2"; // fine
+    //    in = "2 1 -2 1 3 -2"; // error 1
+    //    in = "5 3 4 0 0 3"; // error 3
+    //    in = "1 2 1 4 1 9"; // error 4
+    //    in = "25 25 9 2 25 25"; // error 2
+    while (!cin.eof()) {
+        getline(cin, in);
         vector<string> splittedLine = splitLine(in);
-
         if (isError1(splittedLine))
-            return 1;
+        return 1;
+        
         if (isError2(splittedLine))
-            return 1;
-    
+        return 1;
+        
         Point p1 = {0, 0};
         Point p2 = {stod(splittedLine[0]), stod(splittedLine[1])};
         Point p3 = {stod(splittedLine[2]), stod(splittedLine[3])};
         Point p4 = {stod(splittedLine[4]), stod(splittedLine[5])};
-
+        
         initiateAngles(p1, p2, p3, p4);
-    
+        
         if (isError3(p1, p2, p3 ,p4))
-            return 1;
+        return 1;
         if (isError4(p1, p2, p3 ,p4))
-            return 1;
-
+        return 1;
+        
         if (isSquare(p1, p2, p3, p4)) {
             cout << "square" << endl;
         } else if (isRectangle(p1, p2, p3, p4)) {
@@ -498,8 +496,7 @@ int main(int argc, const char * argv[]) {
         } else {
             cout << "quadrilateral" << endl;
         }
-//    }
+    }
     
-    cout << "NO PROBZ" << endl;
     return 0;
 }
