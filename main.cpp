@@ -59,6 +59,14 @@ double distance(Point pt1, Point pt2) {
 }
 
 bool isEqual(float a, float b) {
+    if (a == INFINITY && b == INFINITY) {
+        return true;
+    }
+    
+    if (a == -INFINITY && b == -INFINITY) {
+        return true;
+    }
+    
     return (fabs(a - b) < 0.0001);
 }
 
@@ -370,25 +378,25 @@ bool isError3(Point p1, Point p2, Point p3, Point p4) {
     //12
     bool bool1 = x1234 >= min(p1.x, p2.x);
     bool bool2 = x1234 <= max(p1.x, p2.x);
-    bool bool3 = y1234 >= min(p1.x, p2.x);
+    bool bool3 = y1234 >= min(p1.y, p2.y);
     bool bool4 = y1234 <= max(p1.y, p2.y);
     
     //34
     bool bool5 = x1234 >= min(p3.x, p4.x);
     bool bool6 = x1234 <= max(p3.x, p4.x);
-    bool bool7 = y1234 >= min(p3.x, p4.x);
+    bool bool7 = y1234 >= min(p3.y, p4.y);
     bool bool8 = y1234 <= max(p3.y, p4.y);
     
     //41
     bool bool9 = x2341 >= min(p4.x, p1.x);
     bool bool10 = x2341 <= max(p4.x, p1.x);
-    bool bool11 = y2341 >= min(p4.x, p1.x);
+    bool bool11 = y2341 >= min(p4.y, p1.y);
     bool bool12 = y2341 <= max(p4.y, p1.y);
     
     // 23
     bool bool13 = x2341 >= min(p2.x, p3.x);
     bool bool14 = x2341 <= max(p2.x, p3.x);
-    bool bool15 = y2341 >= min(p2.x, p3.x);
+    bool bool15 = y2341 >= min(p2.y, p3.y);
     bool bool16 = y2341 <= max(p2.y, p3.y);
     
     //    cout << bool1 << " " << bool2 << " " << bool3 << " " << bool4 << " " << bool5 << " " << bool6 << " " << bool7 << " " << bool8 << endl;
@@ -413,33 +421,14 @@ bool isError3(Point p1, Point p2, Point p3, Point p4) {
 
 // any 3 points are colinear
 bool isError4(Point p1, Point p2, Point p3, Point p4) {
-    vector<double> xPoints = {p1.x, p2.x, p3.x, p4.x};
-    vector<double> yPoints = {p1.y, p2.y, p3.y, p4.y};
+    double slope12 = getSlope(p1, p2);
+    double slope23 = getSlope(p2, p3);
+    double slope34 = getSlope(p3, p4);
+    double slope41 = getSlope(p4, p1);
     
-    for (int i = 0; i < 2; i++) {
-        int xCount = 0;
-        for (int k = i + 1; k < xPoints.size(); k++) {
-            if(xPoints[i] == xPoints[k]) {
-                xCount++;
-            }
-            if (xCount >= 2) {
-                cout << "error 4";
-                return true;
-            }
-        }
-    }
-    
-    for (int i = 0; i < 2; i++) {
-        int yCount = 0;
-        for (int k = i + 1; k < yPoints.size(); k++) {
-            if(yPoints[i] == yPoints[k]) {
-                yCount++;
-            }
-            if (yCount >= 2) {
-                cout << "error 4";
-                return true;
-            }
-        }
+    if (isEqual(slope12, slope23) || isEqual(slope23, slope34) || isEqual(slope34, slope41)) {
+        cout << "error 4";
+        return true;
     }
     
     return false;
