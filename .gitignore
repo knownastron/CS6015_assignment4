@@ -327,5 +327,7 @@ local.properties
 
 .sts4-cache/
 
+fuzzer_results
+fuzzer_test_cases
 
 # End of https://www.gitignore.io/api/eclipse

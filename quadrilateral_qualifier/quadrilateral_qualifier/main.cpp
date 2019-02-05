@@ -11,12 +11,12 @@
 #include <vector>
 #include <cmath>
 #include <assert.h>
+#include <stdexcept>
 using namespace std;
 
 
 /*
- Splits a line into a vector of strings delimiting by spaces
- 
+ Splits a line into a vector of strings delimited by spaces
  */
 vector<string> splitLine(string inputStr) {
     vector<string> output;
@@ -140,7 +140,7 @@ Distances getDistances(Point p1, Point p2, Point p3, Point p4) {
     return d;
 }
 
-double angle(Point p0, Point p1, Point p2) {
+double getAngle(Point p0, Point p1, Point p2) {
     const double PI = 3.1415926535897;
     p1.x = (p1.x - p0.x);
     p1.y = (p1.y - p0.y);
@@ -190,10 +190,10 @@ int getNumCongruentSides(Distances d) {
 }
 
 void initiateAngles(Point &p1, Point &p2, Point &p3, Point &p4) {
-    p1.angle = angle(p1, p2, p4);
-    p2.angle = angle(p2, p1, p3);
-    p3.angle = angle(p3, p4, p2);
-    p4.angle = angle(p4, p1, p3);
+    p1.angle = getAngle(p1, p2, p4);
+    p2.angle = getAngle(p2, p1, p3);
+    p3.angle = getAngle(p3, p4, p2);
+    p4.angle = getAngle(p4, p1, p3);
 }
 
 
@@ -202,7 +202,7 @@ void initiateAngles(Point &p1, Point &p2, Point &p3, Point &p4) {
 
 bool  isParallelogram(Point p1, Point p2, Point p3, Point p4) {
     
-    Distances d = getDistances(p1, p2, p3, p4);
+    
     //opposite angles are congruent
     if (!isEqual(p1.angle, p3.angle) || !isEqual(p2.angle, p4.angle)) {
         return false;
@@ -210,6 +210,8 @@ bool  isParallelogram(Point p1, Point p2, Point p3, Point p4) {
     
     /*
      REMOVED FOR CODE COVERAGE
+     //    Distances d = getDistances(p1, p2, p3, p4);
+     
      //opposite sides are congruent
      if (!isEqual(d.d12, d.d34) || !isEqual(d.d23, d.d41)) {
      return false;
@@ -367,40 +369,41 @@ bool isError3(Point p1, Point p2, Point p3, Point p4) {
     // x and y intercept for lines 12 and 34
     double x1234 = (b12 - b34)/ (slope34 - slope12);
     double y1234 = (slope12 * x1234) + b12;
-    cout << "x1234 " << x1234 << " y1234 " << y1234 << endl;
+        cout << "x1234 " << x1234 << " y1234 " << y1234 << endl;
     
     // x and y intercept for lines 23 and 41
     double x2341 = (b23 - (b41))/ (slope41 - (slope23));
     double y2341 = (slope23 * x2341) + b23;
     
-    cout << "x2341 " << x2341 << " y2341 " << x2341 << endl;
+//        cout << "x2341 " << x2341 << " y2341 " << x2341 << endl;
     
-    //12
-    bool bool1 = x1234 >= min(p1.x, p2.x);
-    bool bool2 = x1234 <= max(p1.x, p2.x);
-    bool bool3 = y1234 >= min(p1.y, p2.y);
-    bool bool4 = y1234 <= max(p1.y, p2.y);
+    cout << "min y " << isEqual(y1234, min(p3.y, p4.y)) << endl;
+    // check that the intercepts is within the range of line 12
+    bool bool1 = x1234 > min(p1.x, p2.x) || isEqual(x1234, min(p1.x, p2.x));
+    bool bool2 = x1234 < max(p1.x, p2.x) || isEqual(x1234, max(p1.x, p2.x));
+    bool bool3 = y1234 > min(p1.y, p2.y) || isEqual(y1234, min(p1.y, p2.y));
+    bool bool4 = y1234 < max(p1.y, p2.y) || isEqual(y1234, max(p1.y, p2.y));
     
-    //34
-    bool bool5 = x1234 >= min(p3.x, p4.x);
-    bool bool6 = x1234 <= max(p3.x, p4.x);
-    bool bool7 = y1234 >= min(p3.y, p4.y);
-    bool bool8 = y1234 <= max(p3.y, p4.y);
+    // check that the intercepts is within the range of line 34
+    bool bool5 = x1234 > min(p3.x, p4.x) || isEqual(x1234, min(p3.x, p4.x));
+    bool bool6 = x1234 < max(p3.x, p4.x) || isEqual(x1234, max(p3.x, p4.x));
+    bool bool7 = y1234 > min(p3.y, p4.y) || isEqual(y1234, min(p3.y, p4.y));
+    bool bool8 = y1234 < max(p3.y, p4.y) || isEqual(y1234, max(p3.y, p4.y));
     
-    //41
-    bool bool9 = x2341 >= min(p4.x, p1.x);
-    bool bool10 = x2341 <= max(p4.x, p1.x);
-    bool bool11 = y2341 >= min(p4.y, p1.y);
-    bool bool12 = y2341 <= max(p4.y, p1.y);
+    // check that the intercepts is within the range of line 41
+    bool bool9 = x2341 > min(p4.x, p1.x) || isEqual(x2341, min(p4.x, p1.x));
+    bool bool10 = x2341 < max(p4.x, p1.x) || isEqual(x2341, max(p4.x, p1.x));
+    bool bool11 = y2341 > min(p4.y, p1.y) || isEqual(y2341, min(p4.y, p1.y));
+    bool bool12 = y2341 < max(p4.y, p1.y) || isEqual(y2341, max(p4.y, p1.y));
     
-    // 23
-    bool bool13 = x2341 >= min(p2.x, p3.x);
-    bool bool14 = x2341 <= max(p2.x, p3.x);
-    bool bool15 = y2341 >= min(p2.y, p3.y);
-    bool bool16 = y2341 <= max(p2.y, p3.y);
+    // check that the intercepts is within the range of line 23
+    bool bool13 = x2341 >= min(p2.x, p3.x) || isEqual(x2341, min(p2.x, p3.x));
+    bool bool14 = x2341 <= max(p2.x, p3.x) || isEqual(x2341, max(p2.x, p3.x));
+    bool bool15 = y2341 >= min(p2.y, p3.y) || isEqual(y2341, min(p2.x, p3.x));
+    bool bool16 = y2341 <= max(p2.y, p3.y) || isEqual(y2341, max(p2.x, p3.x));
     
         cout << bool1 << " " << bool2 << " " << bool3 << " " << bool4 << " " << bool5 << " " << bool6 << " " << bool7 << " " << bool8 << endl;
-        cout << bool9 << " " << bool10 << " " << bool11 << " " << bool12 << " " << bool13 << " " << bool14 << " " << bool15 << " " << bool16 << endl;
+    //    cout << bool9 << " " << bool10 << " " << bool11 << " " << bool12 << " " << bool13 << " " << bool14 << " " << bool15 << " " << bool16 << endl;
     
     if (fabs(x1234) != INFINITY && fabs(y1234) != INFINITY && x1234 != NAN && y1234 != NAN) {
         if (bool1 && bool2 && bool3 && bool4 && bool5 && bool6 && bool7 && bool8) {
@@ -447,9 +450,10 @@ int main(int argc, const char * argv[]) {
     //    in = "4 3 2 3 1 2"; // fine
     //    in = "2 1 -2 1 3 -2"; // error 1
     //    in = "5 3 4 0 0 3"; // error 3
-//        in = "1 2 1 4 1 9"; // error 4
-     in = "81 60 75 41 77 90"; // should be 3
+    //    in = "1 2 1 4 1 9"; // error 4
     //    in = "25 25 9 2 25 25"; // error 2
+    //    in = "84 88 47 47 88 84"; // kite
+    in = "69 53 17 52 81 52";
 //    while (!cin.eof()) {
 //        getline(cin, in);
         vector<string> splittedLine = splitLine(in);
@@ -471,20 +475,29 @@ int main(int argc, const char * argv[]) {
         if (isError4(p1, p2, p3 ,p4))
         return 1;
         
+        assert(splittedLine.size() == 6);
+        
+        for (string num : splittedLine) {
+            assert(stod(num) >= 0 && stod(num) <= 100);
+        }
+        
+        assert(int(p1.angle + p2.angle + p3.angle + p4.angle) <= 360);
+        
+        
         if (isSquare(p1, p2, p3, p4)) {
-            cout << "square" << endl;
+            cout << "square";
         } else if (isRectangle(p1, p2, p3, p4)) {
-            cout << "rectangle" << endl;
+            cout << "rectangle";
         } else if (isRhombi(p1, p2, p3, p4)) {
-            cout << "rhombus" << endl;
+            cout << "rhombus";
         } else if (isParallelogram(p1, p2, p3, p4)) {
-            cout << "parallelogram" << endl;
+            cout << "parallelogram";
         } else if (isTrapezoid(p1, p2, p3, p4)) {
-            cout << "trapezoid" << endl;
+            cout << "trapezoid";
         } else if (isKite(p1, p2, p3, p4)) {
-            cout << "kite" << endl;
+            cout << "kite";
         } else {
-            cout << "quadrilateral" << endl;
+            cout << "quadrilateral";
         }
 //    }
     

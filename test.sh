@@ -1,4 +1,6 @@
 #!/bin/bash
+rm -f quad
+clang++ -std=c++11 main.cpp -o quad
 ./quad < ./test_cases/testKite.txt > ./results/resultKite.txt
 ./quad < ./test_cases/testParallelogram.txt > ./results/resultParallelogram.txt
 ./quad < ./test_cases/testQuadrilateral.txt > ./results/resultQuadrilateral.txt
@@ -15,4 +17,5 @@ diff ./results/resultRhombi.txt ./expected/expectedRhombi.txt
 diff ./results/resultSquare.txt ./expected/expectedSquare.txt
 diff ./results/resultTrapezoid.txt ./expected/expectedTrapezoid.txt
 
+rm -f quad
 

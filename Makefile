@@ -6,5 +6,10 @@ quad: main.cpp
 test:
 	./test.sh
 
+fuzzer:
+	./fuzz
+
+cover:
+
 clean:
 	rm -f quad

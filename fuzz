@@ -1,0 +1,9 @@
+#!/bin/bash
+
+clang++ -std=c++11 main.cpp -o quad
+python ./python_scripts/generateRandomTests.py
+python ./python_scripts/generateResultFiles.py
+python ./python_scripts/doubleHalfTest.py
+python ./python_scripts/swapTest.py
+python ./python_scripts/generateLLVM.py
+rm -f quad

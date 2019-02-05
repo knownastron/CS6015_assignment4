@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -f quad.profdata quad.profraw
+rm -f quad.profdata quad.profraw quad
 clang++ -std=c++11 -fprofile-instr-generate -fcoverage-mapping main.cpp -o quad
 LLVM_PROFILE_FILE="quadSquare.profraw" ./quad < ./test_cases/testSquare.txt
 LLVM_PROFILE_FILE="quadRectangle.profraw" ./quad < ./test_cases/testRectangle.txt
@@ -24,4 +24,4 @@ LLVM_PROFILE_FILE="error4-3.profraw" ./quad < ./error_test_cases/testError4-3.tx
 llvm-profdata merge -sparse quadSquare.profraw quadRectangle.profraw quadRhombi.profraw quadParallelogram.profraw quadTrapezoid.profraw quadKite.profraw quadQuadrilateral.profraw error1-1.profraw error1-2.profraw error1-3.profraw error2-1.profraw error2-2.profraw error2-2.profraw error3-1.profraw error3-2.profraw error3-3.profraw error4-1.profraw error4-2.profraw error4-3.profraw -o quad.profdata
 llvm-cov show ./quad -instr-profile=quad.profdata
 
-rm -f quad.profdata quadSquare.profraw quadRectangle.profraw quadRhombi.profraw quadParallelogram.profraw quadTrapezoid.profraw quadKite.profraw quadQuadrilateral.profraw error1-1.profraw error1-2.profraw error1-3.profraw error2-1.profraw error2-2.profraw error2-3.profraw error3-1.profraw error3-2.profraw error3-3.profraw error4-1.profraw error4-2.profraw error4-3.profraw quad.profdata
+rm -f default.profraw quad.profdata quadSquare.profraw quadRectangle.profraw quadRhombi.profraw quadParallelogram.profraw quadTrapezoid.profraw quadKite.profraw quadQuadrilateral.profraw error1-1.profraw error1-2.profraw error1-3.profraw error2-1.profraw error2-2.profraw error2-3.profraw error3-1.profraw error3-2.profraw error3-3.profraw error4-1.profraw error4-2.profraw error4-3.profraw quad.profdata quad
