@@ -329,5 +329,7 @@ local.properties
 
 fuzzer_results
 fuzzer_test_cases
+jianhui
+jianhui_results
 
 # End of https://www.gitignore.io/api/eclipse
