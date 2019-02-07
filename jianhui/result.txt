@@ -1,0 +1,23 @@
+rectangle
+kite
+square
+rhombus
+trapezoid
+error 4 : points colinear
+parallelogram
+square
+rhombus
+parallelogram
+error 1 : wrong input size
+trapezoid
+trapezoid
+error 1 : out of range
+error 1 : wrong input type
+error 1 : wrong input type
+error 2 : point coincide
+error 2 : point coincide
+error 2 : point coincide
+error 2 : point coincide
+error 3 : line cross
+Quadrilateral
+error 3 : line cross

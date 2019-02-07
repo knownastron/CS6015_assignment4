@@ -1,7 +1,4 @@
-"""
-This test manipulates results by valid inputs by multiplying by 2 or dividing
-by 2 and checking if the output is the same.
-"""
+
 
 import os
 import sys
